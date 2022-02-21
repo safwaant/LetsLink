@@ -1,0 +1,22 @@
+{
+  "name": "calender-app",
+  "version": "1.0.0",
+  "description": "Final project for 475",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/safwaant/Calender-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/safwaant/Calender-App/issues"
+  },
+  "homepage": "https://github.com/safwaant/Calender-App#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
