@@ -1,8 +1,3 @@
-# Database Creation Document
-
-## Used to create an instance of the database
-
-```sql
 \qecho Creating Database for Calendar . . .
 \qecho
 \qecho
@@ -19,15 +14,44 @@ CREATE TABLE Person (
   PRIMARY KEY (ID)  
 );
 
-CREATE TABLE Group(
-   Group_Code INT UNIQUE,
-   Group_Name VARCHAR(20) NOT NULL,
-   Creator_Name VARCHAR(20) NOT NULL,
-   Group_Start TIME::DATE NOT NULL,
-   Group_End TIME::DATE NOT NULL,
-   Member_Count INT NOT NULL,
 
-   PRIMARY KEY (Group_Code) 
+CREATE TABLE PersonAvailableDays (
+    ID SERIAL NOT NULL,
+    Person_AvailableDay DATE NOT NULL,
+    Person_ID SERIAL NOT NULL,
+
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Person_ID) REFERENCES Person(ID)
+);
+
+
+CREATE TABLE Calendar_Group (
+Group_Code INT NOT NULL UNIQUE, 
+Group_Name VARCHAR(20) NOT NULL,
+Creator_Name VARCHAR(20) NOT NULL,
+Group_Start DATE NOT NULL,
+Group_End DATE NOT NULL,
+Member_Count INT NOT NULL,
+
+PRIMARY KEY (Group_Code) 
+);
+
+CREATE TABLE Color (
+    Number_People INTEGER not null,
+    Hex_Value VARCHAR(6) not null unique,
+
+    Primary Key (Number_People)
+);
+
+CREATE TABLE GroupAvailableDays (
+    ID SERIAL NOT NULL,
+    Group_Code INT UNIQUE NOT NULL,
+    Available_Day DATE NOT NULL,
+    Num_People INT NOT NULL,
+
+    PRIMARY KEY (ID),
+    FOREIGN KEY (Group_Code) REFERENCES Group(Group_Code),
+    FOREIGN KEY (Num_People) REFERENCES Color(Number_People)
 );
 
 
@@ -40,32 +64,7 @@ CREATE TABLE GroupMembers (
   FOREIGN KEY (PersonID) REFERENCES Person(ID) 
 );
 
-CREATE TABLE PersonAvailableDays (
-    ID SERIAL NOT NULL,
-    Person_AvailableDay TIME::DATE NOT NULL,
-    Person_ID SERIAL NOT NULL,
 
-    PRIMARY KEY (ID),
-    FOREIGN KEY (Person_ID) REFERENCES Person(ID)
-);
-
-CREATE TABLE Color (
-    Number_People INTEGER(4) not null,
-    Hex_Value VARCHAR(6) not null unique,
-
-    Primary Key (Number_People)
-);
-
-CREATE TABLE GroupAvailableDays (
-    ID SERIAL NOT NULL,
-    Group_Code INT UNIQUE NOT NULL,
-    Available_Day TIME::DATE NOT NULL,
-    Num_People INT(4) NOT NULL,
-
-    PRIMARY KEY (ID),
-    FOREIGN KEY (Group_Code) REFERENCES Group(Group_Code),
-    FOREIGN KEY (Num_People) REFERENCES Color(Number_People)
-);
 
 CREATE TABLE AvailableDaysJoin (
     Group_Avail_ID Serial not null,
@@ -81,4 +80,3 @@ CREATE TABLE AvailableDaysJoin (
 \c postgres
 SELECT current_database();
 DROP DATABASE calendar;
-```
