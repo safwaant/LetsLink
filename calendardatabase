@@ -50,7 +50,7 @@ CREATE TABLE GroupAvailableDays (
   PRIMARY KEY (ID), 
   FOREIGN KEY (Group_Code) REFERENCES CalendarGroup(Group_Code), 
   FOREIGN KEY (Num_People) REFERENCES Color(Number_People),
-  CONSTRAINT Valid_Number CHECK (Number_People <= 4) 
+  CONSTRAINT Valid_Number CHECK (Num_People <= 4) 
 );
 
 CREATE TABLE GroupMembers (
