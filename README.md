@@ -38,9 +38,7 @@ To test components of the application:
 
 make environment file with the following keys' values:
 ```
-MOVIES_DB_URI= "path to mongodb url"
-MOVIES_NS = "database name"
-PORT = "port number"
+PASSWORD = "password for psql user"
 ```
 Head to the backend directory of the project, and run:
 
