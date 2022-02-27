@@ -5,7 +5,7 @@ const app = express()
 
 const port = 3000
 app.listen(port, () => {
-    console.log(`We running at port ${port} les get itttttttt`)
+    console.log(`We running at port ${port}`)
 })
 
 app.use(bodyParser.json())
