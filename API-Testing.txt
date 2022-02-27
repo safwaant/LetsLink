@@ -1,1 +1,3 @@
-curl --request GET 'http://localhost:3000/api/v1/meeting'  -v
+curl --request GET 'http://localhost:3000/api/v1/meeting'-v
+
+curl http://localhost:3000/api/v1/meeting
