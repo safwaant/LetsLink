@@ -4,14 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser')
-const db = require('./initDB.js')
-db.connect();
-
-/*
-setTimeout(() => {
-    console.log('Host: ' + db.host + '\nPort: ' + db.port + '\nUser: ' + db.user + '\nDatabase: ' + db.database)
-}, 200)
-*/
 
 var indexRouter = require('./routes/index');
 
