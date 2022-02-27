@@ -8,14 +8,14 @@ client.connect();
 /* GET home page. */
 router.get('/api/v1/meeting', function(req, res, next) {
   //controllers.meeting()
-  client.query(`SELECT * FROM meeting`, (err, result)=>{
+  client.query(`SELECT * FROM Employee WHERE id >= 1`, (err, result)=>{
     if(!err){
         res.send(result.rows)
     }
     console.log(req.baseUrl)
   })
   client.end  
- //res.send('Got a request at the router\n');
+  // res.render('something', {title: 'Example Text});
 });
 
 router.post('/', function(req, res, next) {
