@@ -6,7 +6,7 @@ client.connect();
 router.get('/meeting', (req, res) => {
    client.query(`SELECT * FROM Employee`, (err, result)=>{
         if(!err){
-            res.render('index', {Meeting: result.rows});
+            res.send(result.rows);
         }
       })
    client.end  
@@ -15,3 +15,5 @@ router.get('/meeting', (req, res) => {
 router.get('/1', (req, res) => {
     res.render('index', {Meeting: "Meeting where ID is > 1"});
 })
+
+module.exports = router;
