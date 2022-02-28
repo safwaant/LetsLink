@@ -8,4 +8,4 @@
 
 ### Linux
 
-* GET: `curl http://localhost:3000/api/v1/meeting`
+* GET: `curl http://localhost:3000/api/v1/login`
