@@ -38,7 +38,7 @@ CREATE TABLE CalendarGroup (
 
 CREATE TABLE Color (
   Number_People INTEGER UNIQUE NOT NULL, 
-  Hex_Value VARCHAR(6) UNIQUE NOT NULL, 
+  Hex_Value VARCHAR(7) UNIQUE NOT NULL, 
   Color_Name VARCHAR(20) UNIQUE NOT NULL,
   PRIMARY KEY (Number_People),
   CONSTRAINT Valid_Number CHECK (Number_People <= 4)  
@@ -107,8 +107,8 @@ FROM STDIN (FORMAT 'csv');
 
 COPY CalendarGroup (Group_Code, Group_Name, Creator_Name, Group_Start, Group_End, Member_Count) \
 FROM stdin (FORMAT 'csv');
-1,VeronikaGroup,Veronika,2022-02-21,2022-03-02 4
-2,NeilGroup,Neil,2008-11-12,2022-02-26	1
+1,VeronikaGroup,Veronika,2022-02-21,2022-03-02,4
+2,NeilGroup,Neil,2008-11-12,2022-02-26,1
 \.
 
 COPY Color(Number_People, Hex_Value, Color_Name) 
@@ -150,3 +150,4 @@ COPY GroupAvailableDays (ID, Group_Code, Available_Day, Num_People) FROM stdin;
 
 \qecho Finished creating the database . . . 
 \c postgres
+DROP DATABASE Calendar;
