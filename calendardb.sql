@@ -105,7 +105,7 @@ FROM STDIN (FORMAT 'csv');
 21,2022-02-22,5 
 \.
 
-COPY CalendarGroup (Group_Code, Group_Name, Creator_Name, Group_Start, Group_End, Member_Count) \
+COPY CalendarGroup (Group_Code, Group_Name, Creator_Name, Group_Start, Group_End, Member_Count)
 FROM stdin (FORMAT 'csv');
 1,VeronikaGroup,Veronika,2022-02-21,2022-03-02,4
 2,NeilGroup,Neil,2008-11-12,2022-02-26,1
