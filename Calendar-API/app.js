@@ -6,6 +6,7 @@ var logger = require('morgan');
 const bodyParser = require('body-parser')
 var indexRouter = require('./routes/index');
 const personRouter = require('./routes/person');
+const loginRouter = require('./routes/login');
 const client = require('./initDB');
 var app = express();
 
@@ -25,8 +26,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+client.connect();
 app.use('/api/v1/', indexRouter); // http://localhost:3000/api/v1/
-app.use('/api/v1/', personRouter);
+app.use('/api/v1/person/', personRouter); // http://localhost:3000/api/v1/person/
+app.use('api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
