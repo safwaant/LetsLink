@@ -8,11 +8,7 @@ const client = new Client({
     user: "postgres",
     port: 5432,
     password: `${password}`,
-<<<<<<< Updated upstream:Calendar-API/initDB.js
-    database: "postgres"
-=======
     database: "calendar"
->>>>>>> Stashed changes:backend/connection.js
 })
 
 module.exports = client
