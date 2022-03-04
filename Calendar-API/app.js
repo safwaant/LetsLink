@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 client.connect();
 app.use('/api/v1/', indexRouter); // http://localhost:3000/api/v1/
 app.use('/api/v1/person/', personRouter); // http://localhost:3000/api/v1/person/
-app.use('api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
+app.use('/api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
