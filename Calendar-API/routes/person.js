@@ -11,7 +11,10 @@ router.get('/person', (req, res) => {
 })
 
 router.get('/1', (req, res) => {
-    res.render('index', {Meeting: "Meeting where ID is > 1"});
+    client.query(`SELECT P.id FROM Person P WHERE P.id = 1`, (err, result) => {
+       res.send(result.rows);
+    })
 })
+
 
 module.exports = router;
