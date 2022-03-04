@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var model = require('../model/meetingmodel');
+var model = require('../model/personDAO');
 
 /* GET home page. */
 router.get('/login', function(req, res, next) {
