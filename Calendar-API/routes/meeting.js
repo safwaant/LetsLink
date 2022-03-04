@@ -3,16 +3,9 @@ const router = express.Router();
 const client = require('../initDB');
 
 client.connect();
-router.get('/meeting', (req, res) => {
-   client.query(`SELECT * FROM meeting`, (err, result)=>{
-        if(!err){
-            const obj = result.rows;
-            let people = '';
-            obj.forEach( person => {
-             people += person.purpose + ' ' + person.starttime +''; 
-            });
-            res.render('index', {Meeting: people});
-        }
+router.get('/person', (req, res) => {
+   client.query(`SELECT * FROM person`, (err, result)=>{
+        res.send(result.rows);
       })
    client.end  
 })
