@@ -11,7 +11,6 @@ router.get('/person', (req, res) => {
    client.end  
 })
 
-
 router
 .route('/:id')
 .get((req, res) => {
@@ -26,6 +25,8 @@ router
    }) 
    client.end
 })
+
+//router.params('id', (req, res, next, id));
 
 
 module.exports = router;
