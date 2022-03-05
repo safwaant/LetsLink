@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 router.route('/:password')
 .post((req, res) => {
     client.query(`SELECT P.Person_Name FROM Person P WHERE P.Person_Password = ${req.params.password}`, (err, result) => {
-       res.send(result.rows);  
+       console.log(result.rows);  
     })
     client.end
 })
