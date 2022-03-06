@@ -36,7 +36,7 @@ client.connect();
 app.use('/api/v1/', indexRouter); // http://localhost:3000/api/v1/
 app.use('/api/v1/person/', personRouter); // http://localhost:3000/api/v1/person/
 app.use('/api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
-app.use('/api/v1/personDays/', personDayRouter); // http://localhost:3000/api/v1/personDays/
+app.use('/api/v1/users/', personDayRouter); // http://localhost:3000/api/v1/personDays/
 app.use('/api/v1/group/', groupRouter); // http://localhost:3000/api/v1/group/
 
 // catch 404 and forward to error handler
