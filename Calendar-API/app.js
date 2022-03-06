@@ -5,8 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser')
 var indexRouter = require('./routes/index');
-const meetingRouter = require('./routes/meeting');
+
+
+const personRouter = require('./routes/person');
+const loginRouter = require('./routes/login');
+const personDayRouter = require('./routes/personcal');
+const groupRouter = require('./routes/groupcal');
 const client = require('./initDB');
+
+
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -25,8 +32,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+client.connect();
 app.use('/api/v1/', indexRouter); // http://localhost:3000/api/v1/
-app.use('/api/v1/', meetingRouter);
+app.use('/api/v1/person/', personRouter); // http://localhost:3000/api/v1/person/
+app.use('/api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
+app.use('/api/v1/personDays/', personDayRouter); // http://localhost:3000/api/v1/personDays/
+app.use('/api/v1/group/', groupRouter); // http://localhost:3000/api/v1/group/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

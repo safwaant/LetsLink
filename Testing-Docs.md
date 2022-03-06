@@ -15,8 +15,8 @@
 ### GET APIs
 #### Windows
 
-* GET: `curl --request GET 'http://localhost:3000/api/v1/meeting'-v`
+* GET: `curl --request GET 'http://localhost:3000/api/v1/person'-v`
 
 #### Linux
 
-* GET: `curl http://localhost:3000/api/v1/login`
+* GET: `curl http://localhost:3000/api/v1/person`

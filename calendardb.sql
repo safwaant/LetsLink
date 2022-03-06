@@ -46,7 +46,7 @@ CREATE TABLE Color (
 
 CREATE TABLE GroupAvailableDays (
   ID SERIAL NOT NULL, 
-  Group_Code INT UNIQUE NOT NULL, 
+  Group_Code INT NOT NULL, 
   Available_Day DATE NOT NULL, 
   Num_People INT NOT NULL, 
   PRIMARY KEY (ID), 
@@ -127,18 +127,10 @@ FROM stdin (FORMAT 'csv');
 2,5
 \.
 
-COPY AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
-FROM stdin (FORMAT 'csv');
-1,1
-1,2
-1,3
-1,4
-2,5
-\.
 
 COPY GroupAvailableDays (ID, Group_Code, Available_Day, Num_People) 
 FROM stdin (FORMAT 'csv');
-1,1,2022-02-21,4
+1,1,2022-02-21,3
 2,1,2022-02-22,3
 3,1,2022-02-23,2
 4,1,2022-02-24,1
@@ -148,6 +140,16 @@ FROM stdin (FORMAT 'csv');
 8,1,2022-03-01,1
 9,1,2022-03-06,1
 10,1,2022-03-07,1
+\.
+
+
+COPY AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
+FROM stdin (FORMAT 'csv');
+1,1
+1,2
+1,3
+1,4
+2,5
 \.
 
 \qecho Finished creating the database . . . 
