@@ -10,6 +10,13 @@ router.get('/', (req, res) => {
    client.end  
 })
 
+router.get('/id/:person_name', (req, res) => {
+   client.query(`SELECT P.id FROM Person P WHERE P.Person_Name = '${req.params.person_name}'`, (err, result) => {
+      res.json(result.rows);
+   })
+   client.end
+})
+
 router
 .route('/:id')
 .get((req, res) => {
