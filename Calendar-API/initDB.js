@@ -9,6 +9,6 @@ const client = new Client({
     port: 5432,
     password: `${password}`,
     database: "calendar"
-})
+});
 
-module.exports = client
+module.exports = client;

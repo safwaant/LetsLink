@@ -10,12 +10,12 @@ router.get('/', (req, res) => {
     client.end
 })
 
-router.route('/:id')
+router.route('/:id') // http://localhost:3000/api/v1/group/123
 .get((req, res) => {
     client.query(`SELECT Available_Day FROM GroupAvailableDays WHERE Group_Code = ${req.params.id}`, (err, result) => {
         res.json(result.rows);
     })
     client.end
-})
+});
 
 module.exports = router
