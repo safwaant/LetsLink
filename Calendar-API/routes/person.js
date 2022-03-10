@@ -10,6 +10,11 @@ router.get('/', (req, res) => {
    client.end  
 })
 
+// get group available data for a person
+
+
+// add route to return the id given username
+
 router
 .route('/:id')
 .get((req, res) => {
