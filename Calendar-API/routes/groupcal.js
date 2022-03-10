@@ -17,5 +17,9 @@ router.route('/:id')
     })
     client.end
 })
+// how to get the next serial value??
+.post((req, res) => {
+    client.query(`INSERT INTO GroupAvailableDays `)
+})
 
 module.exports = router
