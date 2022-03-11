@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\Calendar-API",
+    "\\Calendar-API\\model",
+    "\\Calendar-API\\public",
+    "\\Calendar-API\\routes",
+    "\\Calendar-API\\views"
+  ],
+  "SelectedNode": "\\Calendar-API\\routes\\login.js",
+  "PreviewInSolutionExplorer": false
+}

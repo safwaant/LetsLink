@@ -22,4 +22,5 @@ router.route('/:id')
     client.query(`INSERT INTO GroupAvailableDays `)
 })
 
+
 module.exports = router
