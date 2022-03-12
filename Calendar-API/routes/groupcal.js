@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
     client.end
 })
 
+
 router.route('/:id')
 .get((req, res) => {
     client.query(`SELECT Available_Day FROM GroupAvailableDays WHERE Group_Code = ${req.params.id}`, (err, result) => {
