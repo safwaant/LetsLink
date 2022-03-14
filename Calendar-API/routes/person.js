@@ -25,6 +25,8 @@ router
    })
    client.end
 })
+
+
 .delete((req, res) => {
    client.query(`DELETE FROM Person P WHERE P.id = ${req.params.id}`, (err, result) => {
       res.sendStatus();
