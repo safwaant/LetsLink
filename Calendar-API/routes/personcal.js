@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 const client = require('../initDB');
 
-
+// Returns every single person available day
 router.get('/', (req, res) => {
     client.query(`SELECT * FROM PersonAvailableDays`, (err, result) => {
        res.json(result.rows); 
@@ -29,6 +29,8 @@ router.get('/', (req, res) => {
 //        client.end
 //})
 
+
+// Retrieves all available days for the specified person. The parameter is person id
 router.route('/:id/')
     .get( async (req, res) => {
         try {

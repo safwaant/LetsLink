@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const client = require('../initDB')
 
-
+// Returns all group’s available days (for debugging)
 router.get('/', (req, res) => {
     client.query(`SELECT Available_Day FROM GroupAvailableDays`, (err, result) => {
         res.json(result.rows);
@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
     client.end
 })
 
+// Returns available days of the group specified 
 router.route('/:groupcode')
     .get(async (req, res) => {
         try {
@@ -28,7 +29,7 @@ router.route('/:groupcode')
     client.end
     })
 
-//not close to being done
+// Inserts user into a group using GroupMembers table, if current amount of members 
 router.route('/:groupcode/:id')
     .post(async (req, res) => {
         try {
