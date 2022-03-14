@@ -17,26 +17,40 @@ router.put('/forgot/:username/:newpassword', (req, res) => {
 
 
 router.route('/:username/:password')
-    .get((req, res) => {
-        const { username, password } = req.body
-        let response
-        response = await client.query(`SELECT id FROM Person WHERE person_name = $1 AND person_password = $2`, [username, password]);
-        if (response.rowCount > 0) {
-            res.status(200).send(response.rows);
-        } else {
-            res.status(404).send({message: "No products found"});
+    .get(async (req, res) => {
+        try {
+            const sql = `SELECT id FROM person WHERE person_name = $1 AND person_password = $2`
+            const { username, password } = req.params
+            let response
+            response = await client.query(sql, [username, password])
+            console.log(response.rowCount)
+            if (response.rowCount > 0) {
+                res.status(200).send(response.rows);
+            } else {
+                try {
+                    const sql2 = "INSERT INTO Person (person_name, person_password) VALUES ($1, $2)"
+                    client.query(sql2, [username, password])
+                    res.status(200).send({ message: "User does not exist, inserted into Person Table" });
+                } catch (error) {
+                    res.status(404).send({ message: "User does not exist, failed insert into Person Table" })
+                }
+            }
+        } catch (err) {
+            res.status(404).send({ message: "User Get Failed" })
         }
+    client.end
     })
     .post((req, res) => {
-        const { username, password } = request.body
-        client.query(`INSERT INTO Person (person_name, person_password) VALUES (${req.params.username}, ${req.params.password})`, (error, results) => {
-            if (error) {
-                throw error
-                res.status(404).send('Insert did not work')
-            }
-            res.status(201).send('User added with ID: ')
-        })
+        try {
+            const sql2 = "INSERT INTO Person (person_name, person_password) VALUES ($1, $2)"
+            client.query(sql2, [username, password])
+            res.status(200).send({ message: "User does not exist, inserted into Person Table" });
+        } catch (error) {
+            res.status(404).send({ message: "Failed insert into Person Table" })
+        }
     client.end
-})
+    })
+
+
 
 module.exports = router;
