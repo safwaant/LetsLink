@@ -11,6 +11,11 @@ router.get('/', (req, res) => {
    client.end
 })
 
+router.put('/forgot/:username/:newpassword', (req, res) => {
+    client.query(`UPDATE Person P SET P.Person_Password = '${req.params.newpassword}' WHERE P.Person_Name = ${req.params.username}`)
+})
+
+
 router.route('/:username/:password')
     .get(async (req, res) => {
         try {
