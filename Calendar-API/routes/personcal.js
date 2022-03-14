@@ -44,8 +44,11 @@ router.route('/:id/')
         } catch (err) {
             res.status(404).send({ message: "Person Calendar Get Failed" })
         }
+        client.end
+    })
   
-router.post('/add/:id/:date', (req, res) => {
+/*    
+.post('/add/:id/:day/:month/:year', (req, res) => {
     client.query(`SELECT P.AvailableDay FROM PersonAvailableDays
      P WHERE P.AvailableDay = ${req.params.date}`, (err, result) => {
            if(result.rowCount > 0){
@@ -54,9 +57,6 @@ router.post('/add/:id/:date', (req, res) => {
            } 
       })   
 })
-
-
-router.route('/:id/:')
-
+*/
 
 module.exports = router
