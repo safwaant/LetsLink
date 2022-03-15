@@ -49,6 +49,7 @@ router.route('/:id/')
         }
         client.end
     })    
+
  // inserts a date into the persons calendar   
  .post(async (req, res) => {
     try {
