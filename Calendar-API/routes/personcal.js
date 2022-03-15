@@ -50,20 +50,17 @@ router.route('/:id/')
         client.end
     })    
  // inserts a date into the persons calendar   
-.post('/add', (req, res) => {
-    client.query(`SELECT P.AvailableDay FROM PersonAvailableDays
-     P WHERE P.AvailableDay = ${req.params.date}`, (err, result) => {        
-           if(result.rowCount === 0 && !err){
-             const person_id = req.body.person_id;
-             const day = req.body.day, month = req.body.month, year = req.body.year;
-             // parse to postgres date    
-             const date = year + ':' + month + ':' + day;
-             client.query(`INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) 
-             VALUES TO_DATE($1, 'YYYY/MM/DD'), ${person_id}`, (err, result) => {
-               result.status(201).send(`Successfully Inserted ${date} into ${person_id}'s table`);
-             })
-           } 
-      })   
+ .post(async (req, res) => {
+    try {
+        sql = `INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) VALUES TO_DATE($1, 'YYYY/MM/DD'), $2`
+        const person_id = req.body.person_id;
+        const date = req.body.year + '/' + req.body.month + '/' + req.body.days;
+        let result
+        result = await client.query(sql, [date, person_id]);
+        res.status(200).send({ message: "Succesfully inserted into PersonAvailableDays Table" })
+    } catch (err) {
+        res.status(404).send({ message: "Failed insert into PersonAvailableDays Table" })
+    }
 })
 
 
