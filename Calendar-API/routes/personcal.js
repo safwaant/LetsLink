@@ -30,6 +30,20 @@ router.get('/', (req, res) => {
 //        client.end
 //})
 
+ // inserts a date into the persons calendar   
+ router.post(async (req, res) => {
+    try {
+        sql = `INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) VALUES TO_DATE($1, 'YYYY/MM/DD'), $2`
+        const person_id = req.body.person_id;
+        const date = req.body.year + '/' + req.body.month + '/' + req.body.days;
+        let result
+        result = await client.query(sql, [date, person_id]);
+        res.status(200).send({ message: "Succesfully inserted into PersonAvailableDays Table" })
+    } catch (err) {
+        res.status(404).send({ message: "Failed insert into PersonAvailableDays Table" })
+    }
+})
+
 
 // Retrieves all available days for the specified person. The parameter is person id
 router.route('/:id/')
@@ -50,19 +64,7 @@ router.route('/:id/')
         client.end
     })    
 
- // inserts a date into the persons calendar   
- .post(async (req, res) => {
-    try {
-        sql = `INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) VALUES TO_DATE($1, 'YYYY/MM/DD'), $2`
-        const person_id = req.body.person_id;
-        const date = req.body.year + '/' + req.body.month + '/' + req.body.days;
-        let result
-        result = await client.query(sql, [date, person_id]);
-        res.status(200).send({ message: "Succesfully inserted into PersonAvailableDays Table" })
-    } catch (err) {
-        res.status(404).send({ message: "Failed insert into PersonAvailableDays Table" })
-    }
-})
+
 
 
 module.exports = router
