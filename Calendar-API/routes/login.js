@@ -45,6 +45,7 @@ router.route('/:username/:password')
     .post((req, res) => {
         try {
             const sql2 = "INSERT INTO Person (person_name, person_password) VALUES ($1, $2)"
+            // md5 hash the password maybe?
             client.query(sql2, [username, password])
             res.status(200).send({ message: "User does not exist, inserted into Person Table" });
         } catch (error) {
