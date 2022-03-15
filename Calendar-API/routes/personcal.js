@@ -1,4 +1,5 @@
 const express = require('express');
+const { reset } = require('nodemon');
 const router = express.Router()
 const client = require('../initDB');
 
@@ -47,18 +48,23 @@ router.route('/:id/')
             res.status(404).send({ message: "Person Calendar Get Failed" })
         }
         client.end
-    })
-  
-/*    
-.post('/add/:id/:day/:month/:year', (req, res) => {
+    })    
+ // inserts a date into the persons calendar   
+.post('/add', (req, res) => {
     client.query(`SELECT P.AvailableDay FROM PersonAvailableDays
-     P WHERE P.AvailableDay = ${req.params.date}`, (err, result) => {
-           if(result.rowCount > 0){
-             const person = result.rows;   
-             client.query(`INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) VALUES ${date}, ${id}`)  
+     P WHERE P.AvailableDay = ${req.params.date}`, (err, result) => {        
+           if(result.rowCount === 0 && !err){
+             const person_id = req.body.person_id;
+             const day = req.body.day, month = req.body.month, year = req.body.year;
+             // parse to postgres date    
+             const date = year + ':' + month + ':' + day;
+             client.query(`INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) 
+             VALUES TO_DATE($1, 'YYYY/MM/DD'), ${person_id}`, (err, result) => {
+               result.status(201).send(`Successfully Inserted ${date} into ${person_id}'s table`);
+             })
            } 
       })   
 })
-*/
+
 
 module.exports = router

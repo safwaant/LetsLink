@@ -42,6 +42,7 @@ router.route('/:username/:password')
         }
     client.end
     })
+    // create a new user
     .post((req, res) => {
         try {
             const sql2 = "INSERT INTO Person (person_name, person_password) VALUES ($1, $2)"
