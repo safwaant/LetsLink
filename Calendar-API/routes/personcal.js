@@ -40,6 +40,7 @@ router.get('/', (req, res) => {
         let result
         result = await client.query(sql, [date]);
 
+        // find which group the person is in
         const sqlGroup = `SELECT G.Group_Code FROM CalendarGroup G 
         JOIN GroupMembers GM ON (G.Group_Code = GM.Group_Code) 
         JOIN Person P ON P.ID = GM.PersonID WHERE P.ID = ${person_id}`
@@ -50,12 +51,16 @@ router.get('/', (req, res) => {
 
         const checkDate = `SELECT G.Available_Day FROM GroupAvailableDay G WHERE Available_Day = ${date}`;
         client.query(checkDate, (err, result) => {
-            if(result.rowCount > 0){
-              // update the color   
-            } else {
-               // insert into calendar 
-               client.query(`INSERT INTO GroupAvailableDays (Available_Day, Num_People)`) 
+            try {
+              if(result.rowCount === 0){
+                  // update the color   
+                  // insert into calendar 
+                 //client.query(`INSERT INTO GroupAvailableDays (Group_Code, Available_Day, Num_People)`) 
+               }   
+            } catch(err){
+                res.send(404).send({ message: "Failed insert into GroupAvailableDays Table"});
             }
+            
         })
         res.status(200).send({ message: "Successfully inserted into PersonAvailableDays Table" })
     } catch (err) {
