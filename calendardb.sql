@@ -71,13 +71,13 @@ CREATE TABLE AvailableDaysJoin (
   FOREIGN KEY (Group_Avail_ID) REFERENCES GroupAvailableDays(ID)
 );
 
-COPY Person (Id, Person_Name, Person_Password) 
+INSERT INTO Person (Id, Person_Name, Person_Password) 
 FROM stdin (FORMAT 'csv');
-1,Lucas,example1
-2,Omar,example2
-3,Veronika,example3
-4,Safwaan,example4
-5,Neil,example5
+(1,'Lucas','example1')
+(2,'Omar','example2')
+(3,'Veronika','example3')
+(4,'Safwaan','example4')
+(5,'Neil','example5')
 \.
 
 INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID)
@@ -105,51 +105,51 @@ FROM STDIN (FORMAT 'csv');
 ('2022-02-22',5)
 \.
 
-COPY CalendarGroup (Group_Code, Group_Name, Creator_Name, Group_Start, Group_End, Member_Count)
+INSERT INTO CalendarGroup (Group_Code, Group_Name, Creator_Name, Group_Start, Group_End, Member_Count)
 FROM stdin (FORMAT 'csv');
-1,VeronikaGroup,Veronika,2022-02-21,2022-03-02,4
-2,NeilGroup,Neil,2008-11-12,2022-02-26,1
+(1,'VeronikaGroup','Veronika','2022-02-21','2022-03-02',4)
+(2,'NeilGroup','Neil','2008-11-12','2022-02-26',1)
 \.
 
-COPY Color(Number_People, Hex_Value, Color_Name) 
+INSERT INTO Color(Number_People, Hex_Value, Color_Name) 
 FROM stdin (FORMAT 'csv');
-1,#FFFF00,Yellow
-2,#9acd32,YellowGreen
-3,#00FF00,Green
+(1,#FFFF00,'Yellow')
+(2,#9acd32,'YellowGreen')
+(3,#00FF00,'Green')
 \.
 
-COPY GroupMembers (Group_Code, PersonID) 
+INSERT INTO GroupMembers (Group_Code, PersonID) 
 FROM stdin (FORMAT 'csv');
-1,1
-1,2
-1,3
-1,4
-2,5
-\.
-
-
-COPY GroupAvailableDays (ID, Group_Code, Available_Day, Num_People) 
-FROM stdin (FORMAT 'csv');
-1,1,2022-02-21,3
-2,1,2022-02-22,3
-3,1,2022-02-23,2
-4,1,2022-02-24,1
-5,1,2022-02-26,2
-6,1,2022-02-27,1
-7,1,2022-02-28,1
-8,1,2022-03-01,1
-9,1,2022-03-06,1
-10,1,2022-03-07,1
+(1,1)
+(1,2)
+(1,3)
+(1,4)
+(2,5)
 \.
 
 
-COPY AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
+INSERT INTO GroupAvailableDays (ID, Group_Code, Available_Day, Num_People) 
 FROM stdin (FORMAT 'csv');
-1,1
-1,2
-1,3
-1,4
-2,5
+(1,1,'2022-02-21',3)
+(2,1,'2022-02-22',3)
+(3,1,'2022-02-23',2)
+(4,1,'2022-02-24',1)
+(5,1,'2022-02-26',2)
+(6,1,'2022-02-27',1)
+(7,1,'2022-02-28',1)
+(8,1,'2022-03-01',1)
+(9,1,'2022-03-06',1)
+(10,1,'2022-03-07',1)
+\.
+
+
+INSERT INTO AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
+FROM stdin (FORMAT 'csv');
+(1,1)
+(1,2)
+(1,3)
+(1,4)
+(2,5)
 \.
 
 \qecho Finished creating the database . . . 
