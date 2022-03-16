@@ -7,10 +7,10 @@ const client = require('../initDB');
 //    (used for debugging and hidden from the end user)
 router.get('/', (req, res) => {
    client.query(`SELECT * FROM person`, (err, result)=>{
-        if(err){
-          res.send(err.message); 
-        } else {
-         res.json(result.rows);  
+        try{
+         res.json(result.rows);   
+        } catch(err) {
+         res.send(err.message);   
         }
       })
    client.end  
@@ -19,7 +19,11 @@ router.get('/', (req, res) => {
 // Returns a person's id based on the person's name
 router.get('/id/:person_name', (req, res) => {
    client.query(`SELECT P.id FROM Person P WHERE P.Person_Name = '${req.params.person_name}'`, (err, result) => {
-      res.json(result.rows);
+      try{
+        res.json(result.rows); 
+      }catch(err){
+        res.send(err.message); 
+      }
    })
    client.end
 })

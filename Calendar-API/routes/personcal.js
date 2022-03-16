@@ -34,7 +34,6 @@ router.get('/', (req, res) => {
  router.post('/add', async (req, res) => {
     try {
         const person_id = req.body.person_id;
-        //const date = req.body.year + '-' + req.body.month + '-' + req.body.days;
         const date = new Date(req.body.year, req.body.month-1, req.body.days);
         sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES ($1, ${person_id})`
         let result
@@ -54,7 +53,13 @@ router.get('/', (req, res) => {
               if(!err && result.rowCount === 0){
                   // update the color   
                   // insert into calendar 
-                 client.query(`INSERT INTO GroupAvailableDays (Group_Code, Available_Day, Num_People)`) 
+                 client.query(`INSERT INTO GroupAvailableDays (Group_Code, Available_Day, Num_People)`, (err, result) => {
+                    try{
+                      res.status(202).send({message: "Succesful insert into group calendar"});  
+                    }catch(err){
+                      res.send(err.message);  
+                    } 
+                 }) 
                } else {
                   res.send("Error could not insert into Person Calendar: " + err.message); 
                }  
