@@ -147,4 +147,4 @@ VALUES
 
 \qecho Finished creating the database . . . 
 \c postgres
-DROP DATABASE Calendar;
+--DROP DATABASE Calendar;
