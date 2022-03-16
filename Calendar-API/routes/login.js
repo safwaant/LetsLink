@@ -31,8 +31,7 @@ router.route('/:username/:password')
             } else {
                 try {
                     const sql2 = "INSERT INTO Person (person_name, person_password) VALUES ($1, $2)"
-                    client.query(sql2, [username, password])
-                    res.status(200).send({ message: "User does not exist, inserted into Person Table" });
+                    client.que
                 } catch (error) {
                     res.status(404).send({ message: "User does not exist, failed insert into Person Table" })
                 }
@@ -44,14 +43,14 @@ router.route('/:username/:password')
     })
     // create a new user
     .post((req, res) => {
-        try {
-            const sql2 = "INSERT INTO Person (person_name, person_password) VALUES ($1, $2)"
-            // md5 hash the password maybe?
-            client.query(sql2, [username, password])
-            res.status(200).send({ message: "User does not exist, inserted into Person Table" });
-        } catch (error) {
-            res.status(404).send({ message: "Failed insert into Person Table" })
-        }
+        client.query(`INSERT INTO Person P (Person_Name, Person_Password) VALUES (${req.params.username}, ${req.params.password})`, (err, result) => {
+            if(err){
+              res.status(404).send({message: "Insert into Person Table failed"});  
+            } else {
+              res.status(200).send({ message: "User does not exist, inserted into Person Table"});  
+            }
+        })
+
     client.end
     })
 
