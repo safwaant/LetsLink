@@ -7,7 +7,11 @@ const client = require('../initDB');
 //    (used for debugging and hidden from the end user)
 router.get('/', (req, res) => {
    client.query(`SELECT * FROM person`, (err, result)=>{
-        res.json(result.rows);
+        if(err){
+          res.send(err.message); 
+        } else {
+         res.json(result.rows);  
+        }
       })
    client.end  
 })
@@ -36,12 +40,28 @@ router
    })
    client.end
 })
-
 // Deletes the user based on the id
 .delete((req, res) => {
-   client.query(`DELETE FROM Person P WHERE P.id = ${req.params.id}`, (err, result) => {
-      res.sendStatus();
-   }) 
+   const id = req.params.id;
+   client.query(`DELETE FROM PersonAvailableDays P WHERE P.Person_ID = ${id}`, (err, result) => {
+      if(err){
+         res.send(err.message);
+      } else {
+            client.query(`DELETE FROM GroupMembers G WHERE G.PersonID = ${id}` , (err, result) => {
+               if(err){
+                  res.send(err.message);
+               } else {
+                  client.query(`DELETE FROM Person P WHERE P.id = ${id}`, (err, result) => {
+                     if(err){
+                        res.send(err.message);
+                     } else {
+                        res.status(202).send("Success");
+                     }
+                  })
+               }
+            })
+         }  
+      })
    client.end
 })
 

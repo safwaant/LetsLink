@@ -17,12 +17,45 @@ router.put('/forgot/:username/:newpassword', (req, res) => {
     client.query(`UPDATE Person P SET P.Person_Password = '${req.params.newpassword}' WHERE P.Person_Name = ${req.params.username}`)
 })
 
+
+    // create a new user
+router.post('/newUser', (req, res) => {
+        const loginInfo = {
+          newUsername : req.body.username,
+          newPassword : req.body.password
+        };
+
+        const addUserQuery = `INSERT INTO Person (Person_Name, Person_Password) VALUES ('${loginInfo.newUsername}', '${loginInfo.newPassword}')`;
+        
+        client.query(addUserQuery, (err, result) => {
+            if(!err){
+                res.status(200).send({ message: "Success! inserted into Person Table"});    
+            } else {
+                res.send("Could not be inserted into person table: " + err.message);  
+            }
+        })
+
+    client.end
+})
+
+
 // Returns the user’s id
 router.route('/:username/:password')
     .get(async (req, res) => {
+        const info = { 
+            username : req.params.username, 
+            password : req.params.password
+        };
+        const sql = `SELECT id FROM person WHERE person_name = '${info.username}' AND person_password = '${info.password}'`;
+        client.query(sql, (err, result) => {
+            if(err){
+                res.send("Error postgres: " + err.message);
+            } else  {
+                res.json(result.rows);
+            }
+        })
+        /*
         try {
-            const sql = `SELECT id FROM person WHERE person_name = $1 AND person_password = $2`
-            const { username, password } = req.params
             let response
             response = await client.query(sql, [username, password])
             console.log(response.rowCount)
@@ -39,22 +72,9 @@ router.route('/:username/:password')
         } catch (err) {
             res.status(404).send({ message: "User Get Failed" })
         }
+        */
     client.end
     })
-    // create a new user
-    .post((req, res) => {
-        const addUserQuery = `INSERT INTO Person (Person_Name, Person_Password) VALUES ('${req.params.username}', '${req.params.password}')`;
-        client.query(addUserQuery, (err, result) => {
-            if(!err){
-                res.status(200).send({ message: "User does not exist, inserted into Person Table"});    
-            } else {
-                res.send("Could not be inserted into person table: " + err.message);  
-            }
-        })
-
-    client.end
-    })
-
 
 
 module.exports = router;
