@@ -23,7 +23,7 @@ CREATE TABLE PersonAvailableDays (
 );
 
 CREATE TABLE CalendarGroup (
-  Group_Code SERIAL NOT NULL UNIQUE, 
+  Group_Code INT NOT NULL UNIQUE, 
   Group_Name VARCHAR(20) NOT NULL, 
   Creator_Name VARCHAR(20) NOT NULL, 
   Group_Start DATE NOT NULL, 
@@ -46,8 +46,8 @@ CREATE TABLE Color (
 
 CREATE TABLE GroupAvailableDays (
   ID SERIAL NOT NULL, 
-  Group_Code INT NOT NULL UNIQUE, 
-  Available_Day DATE NOT NULL UNIQUE, 
+  Group_Code INT NOT NULL, 
+  Available_Day DATE NOT NULL, 
   Num_People INT NOT NULL, 
   PRIMARY KEY (ID), 
   FOREIGN KEY (Group_Code) REFERENCES CalendarGroup(Group_Code), 
@@ -56,11 +56,19 @@ CREATE TABLE GroupAvailableDays (
 );
 
 CREATE TABLE GroupMembers (
-  Group_Code SERIAL, 
+  Group_Code INT, 
   PersonID SERIAL, 
   PRIMARY KEY (Group_Code, PersonID), 
   FOREIGN KEY (Group_Code) REFERENCES CalendarGroup(Group_Code), 
   FOREIGN KEY (PersonID) REFERENCES Person(ID)
+);
+
+CREATE TABLE AvailableDaysJoin (
+  Group_Avail_ID SERIAL NOT NULL, 
+  Person_Avail_ID SERIAL NOT NULL, 
+  PRIMARY KEY (Group_Avail_ID, Person_Avail_ID),
+  FOREIGN KEY (Person_Avail_ID) REFERENCES PersonAvailableDays(ID), 
+  FOREIGN KEY (Group_Avail_ID) REFERENCES GroupAvailableDays(ID)
 );
 
 INSERT INTO Person (Person_Name, Person_Password) 
@@ -128,6 +136,15 @@ VALUES
 (1,'2022-03-06',1),
 (1,'2022-03-07',1);
 
+
+INSERT INTO AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
+VALUES
+(1,1),
+(1,2),
+(1,3),
+(1,4),
+(2,5);
+
 \qecho Finished creating the database . . . 
 \c postgres
---DROP DATABASE Calendar;
+DROP DATABASE Calendar;
