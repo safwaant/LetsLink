@@ -113,9 +113,9 @@ FROM stdin (FORMAT 'csv');
 
 INSERT INTO Color(Number_People, Hex_Value, Color_Name) 
 FROM stdin (FORMAT 'csv');
-(1,#FFFF00,'Yellow')
-(2,#9acd32,'YellowGreen')
-(3,#00FF00,'Green')
+(1,'#FFFF00','Yellow')
+(2,'#9acd32','YellowGreen')
+(3,'#00FF00','Green')
 \.
 
 INSERT INTO GroupMembers (Group_Code, PersonID) 
