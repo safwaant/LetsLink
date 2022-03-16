@@ -13,8 +13,15 @@ router.get('/', (req, res) => {
 })
 
 // Updates the user’s password
-router.put('/forgot/:username/:newpassword', (req, res) => {
-    client.query(`UPDATE Person P SET P.Person_Password = '${req.params.newpassword}' WHERE P.Person_Name = ${req.params.username}`)
+router.put('/forgot', (req, res) => {
+    const newInfo = { username : req.body.username, newPassword : req.body.newPassword };
+    client.query(`UPDATE Person P SET P.Person_Password = '${newPassword}' WHERE P.Person_Name = '${username}'`, (err, result) => {
+        try{
+            res.status(202).send("Successful update to the Specified Person");
+        }catch(err){
+            res.send(err.message);
+        }
+    })
 })
 
 // Creates a new user
@@ -23,9 +30,7 @@ router.post('/newUser', (req, res) => {
           newUsername : req.body.username,
           newPassword : req.body.password
         };
-
         const addUserQuery = `INSERT INTO Person (Person_Name, Person_Password) VALUES ('${loginInfo.newUsername}', '${loginInfo.newPassword}')`;
-        
         client.query(addUserQuery, (err, result) => {
             if(!err){
                 res.status(200).send({ message: "Success! inserted into Person Table"});    

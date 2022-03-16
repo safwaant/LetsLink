@@ -28,13 +28,6 @@ router.get('/id/:person_name', (req, res) => {
    client.end
 })
 
-router.get('/id/:username', (req, res) => {
-   client.query(`SELECT Person_Name FROM Person JOIN GroupMembers ON (Person.id = GroupMembers.person_id) 
-   WHERE Person.Person_Name = '${req.params.username}'`, (err, result) => { 
-      res.json(result.rows);
-   })
-})
-
 // Returns a person's name based on the person's id
 router
 .route('/:id')
