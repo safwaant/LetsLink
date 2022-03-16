@@ -71,13 +71,13 @@ CREATE TABLE AvailableDaysJoin (
   FOREIGN KEY (Group_Avail_ID) REFERENCES GroupAvailableDays(ID)
 );
 
-INSERT INTO Person (Id, Person_Name, Person_Password) 
+INSERT INTO Person (Person_Name, Person_Password) 
 FROM stdin (FORMAT 'csv');
-(1,'Lucas','example1')
-(2,'Omar','example2')
-(3,'Veronika','example3')
-(4,'Safwaan','example4')
-(5,'Neil','example5')
+('Lucas','example1')
+('Omar','example2')
+('Veronika','example3')
+('Safwaan','example4')
+('Neil','example5')
 \.
 
 INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID)
@@ -105,10 +105,10 @@ FROM STDIN (FORMAT 'csv');
 ('2022-02-22',5)
 \.
 
-INSERT INTO CalendarGroup (Group_Code, Group_Name, Creator_Name, Group_Start, Group_End, Member_Count)
+INSERT INTO CalendarGroup (Group_Name, Creator_Name, Group_Start, Group_End, Member_Count)
 FROM stdin (FORMAT 'csv');
-(1,'VeronikaGroup','Veronika','2022-02-21','2022-03-02',4)
-(2,'NeilGroup','Neil','2008-11-12','2022-02-26',1)
+('VeronikaGroup','Veronika','2022-02-21','2022-03-02',4)
+('NeilGroup','Neil','2008-11-12','2022-02-26',1)
 \.
 
 INSERT INTO Color(Number_People, Hex_Value, Color_Name) 
