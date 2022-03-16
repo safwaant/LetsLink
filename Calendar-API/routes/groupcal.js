@@ -4,7 +4,7 @@ const client = require('../initDB')
 
 // Returns all group’s available days (for debugging)
 router.get('/', (req, res) => {
-    client.query(`SELECT Available_Day FROM GroupAvailableDays`, (err, result) => {
+    client.query(`SELECT * FROM GroupAvailableDays`, (err, result) => {
         res.json(result.rows);
     })
     client.end
