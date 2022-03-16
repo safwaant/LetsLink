@@ -27,21 +27,17 @@ router.get('/color', (req, res) => {
 })
 
 // update a color given a date
-router.put('/updateColor', (err, result) => {
+router.put('/updateColor', (req, res) => {
+  const date = new Date(req.body.year, req.body.month-1, req.body.days);
+  const sql = `UPDATE GroupAvailableDays SET Num_People = (((SELECT Num_People FROM GroupAvailableDays WHERE Available_Day = ${date}) + 1) % 4) WHERE Available_Day = ${date}`;
+  client.query(sql, (err2, result) => {
     try{
-        const date = new Date(req.body.year, req.body.month-1, req.body.days);
-        const sql = `UPDATE GroupAvailableDays SET Num_People = 
-        (((SELECT Num_People FROM GroupAvailableDays WHERE Available_Day = ${date}) + 1) % 4) WHERE Available_Day = ${date}`;
-         client.query(sql, (err2, result) => {
-            try{
-              res.status(202).send({message: `Successful update to the color of ${date}`});  
-            }catch(err){
-              res.send(err2.message);  
-            }
-         })
+      res.status(202).send({message: `Successful update to the color of ${date}`});  
     }catch(err){
-        res.send(err.message);
+      res.send(err2.message);  
     }
+  })
+  client.end
 })
 
 
