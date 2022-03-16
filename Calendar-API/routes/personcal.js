@@ -11,6 +11,31 @@ router.get('/', (req, res) => {
     client.end
 })
 
+router.post('/add', (req, res) => {
+    const person_id = req.body.person_id;
+    const date = req.body.date;
+    console.log(person_id)
+    console.log(date)
+    const sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (TO_DATE('${date}','YYYYMMDD'), ${person_id})`;
+    client.query(sql, (err, result) => {
+        try {
+            sql2 = `INSERT INTO GroupAvailableDays (num_people, available_day, group_code)
+                SELECT 1, TO_DATE('${date}','YYYYMMDD'), Table1.group_code
+                FROM (SELECT group_code
+                FROM person
+                JOIN groupmembers ON (groupmembers.personid = person.id)
+                WHERE Person.id = ${person_id}
+                ) AS Table1
+                ON CONFLICT (group_code, available_day) DO
+                UPDATE SET num_people = groupavailabledays.num_people + 1;`
+            client.query(sql2)
+            res.status(200).send("Succesfully added day")
+        } catch (err) {
+            res.status(404).send("Day adding unsuccesful:" + err.message)
+        }
+    })
+    client.end
+})
 //router.route('/name/:id')
 //    .get(async (req, res) => {
 //        try {
@@ -126,7 +151,7 @@ router.route('/:id')
             if (response.rowCount > 0) {
                 res.status(200).send(response.rows);
             } else {
-                res.status(404).send("Person with given ID has no available days");
+                res.status(404).send("No available days with given Person ID");
             }
         } catch (err) {
             res.status(404).send({ message: "Person Calendar Get Failed" })
