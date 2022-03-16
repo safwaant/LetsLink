@@ -23,7 +23,7 @@ CREATE TABLE PersonAvailableDays (
 );
 
 CREATE TABLE CalendarGroup (
-  Group_Code INT NOT NULL UNIQUE, 
+  Group_Code SERIAL NOT NULL UNIQUE, 
   Group_Name VARCHAR(20) NOT NULL, 
   Creator_Name VARCHAR(20) NOT NULL, 
   Group_Start DATE NOT NULL, 
@@ -46,8 +46,8 @@ CREATE TABLE Color (
 
 CREATE TABLE GroupAvailableDays (
   ID SERIAL NOT NULL, 
-  Group_Code INT NOT NULL, 
-  Available_Day DATE NOT NULL, 
+  Group_Code SERIAL NOT NULL UNIQUE, 
+  Available_Day DATE NOT NULL UNIQUE, 
   Num_People INT NOT NULL, 
   PRIMARY KEY (ID), 
   FOREIGN KEY (Group_Code) REFERENCES CalendarGroup(Group_Code), 
