@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
         sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES ($1, ${person_id})`
         let result
         result = await client.query(sql, [date]);
-        res.status(200).send({ message: "Succesfully inserted into PersonAvailableDays Table" })
+        res.status(200).send({ message: "Successfully inserted into PersonAvailableDays Table" })
     } catch (err) {
         res.status(404).send({ message: "Failed insert into PersonAvailableDays Table" })
     }

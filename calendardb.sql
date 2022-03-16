@@ -72,85 +72,78 @@ CREATE TABLE AvailableDaysJoin (
 );
 
 INSERT INTO Person (Person_Name, Person_Password) 
-FROM stdin (FORMAT 'csv');
-('Lucas','example1')
-('Omar','example2')
-('Veronika','example3')
-('Safwaan','example4')
-('Neil','example5')
-\.
+VALUES
+('Lucas','example1'),
+('Omar','example2'),
+('Veronika','example3'),
+('Safwaan','example4'),
+('Neil','example5');
 
 INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID)
-FROM STDIN (FORMAT 'csv');
-('2022-02-21',1)
-('2022-02-22',1)
-('2022-02-23',1) 
-('2022-02-24',1)
-('2022-02-21',2)
-('2022-02-22',2)
-('2022-02-23',2)
-('2022-02-26',3)
-('2022-02-27',3)
-('2022-02-28',3) 
-('2022-03-01',3) 
-('2022-02-21',3) 
-('2022-02-22',4) 
-('2022-02-21',4)
-('2022-02-26',4) 
-('2022-03-06',4) 
-('2022-03-07',4) 
-('2022-02-23',5) 
-('2022-02-24',5)
-('2022-02-21',5)
-('2022-02-22',5)
-\.
+VALUES
+('2022-02-22',1),
+('2022-02-23',1),
+('2022-02-24',1),
+('2022-02-21',2),
+('2022-02-22',2),
+('2022-02-23',2),
+('2022-02-26',3),
+('2022-02-27',3),
+('2022-02-28',3), 
+('2022-03-01',3), 
+('2022-02-21',3), 
+('2022-02-22',4), 
+('2022-02-21',4),
+('2022-02-26',4), 
+('2022-03-06',4), 
+('2022-02-21',1),
+('2022-03-07',4), 
+('2022-02-23',5),
+('2022-02-24',5),
+('2022-02-21',5),
+('2022-02-22',5);
 
 INSERT INTO CalendarGroup (Group_Name, Creator_Name, Group_Start, Group_End, Member_Count)
-FROM stdin (FORMAT 'csv');
-('VeronikaGroup','Veronika','2022-02-21','2022-03-02',4)
-('NeilGroup','Neil','2008-11-12','2022-02-26',1)
-\.
+VALUES
+('VeronikaGroup','Veronika','2022-02-21','2022-03-02',4),
+('NeilGroup','Neil','2008-11-12','2022-02-26',1);
 
 INSERT INTO Color(Number_People, Hex_Value, Color_Name) 
-FROM stdin (FORMAT 'csv');
-(1,'#FFFF00','Yellow')
-(2,'#9acd32','YellowGreen')
-(3,'#00FF00','Green')
-\.
+VALUES
+(1,'#FFFF00','Yellow'),
+(2,'#9acd32','YellowGreen'),
+(3,'#00FF00','Green');
 
 INSERT INTO GroupMembers (Group_Code, PersonID) 
-FROM stdin (FORMAT 'csv');
-(1,1)
-(1,2)
-(1,3)
-(1,4)
-(2,5)
-\.
+VALUES
+(1,1),
+(1,2),
+(1,3),
+(1,4),
+(2,5);
 
 
 INSERT INTO GroupAvailableDays (ID, Group_Code, Available_Day, Num_People) 
-FROM stdin (FORMAT 'csv');
-(1,1,'2022-02-21',3)
-(2,1,'2022-02-22',3)
-(3,1,'2022-02-23',2)
-(4,1,'2022-02-24',1)
-(5,1,'2022-02-26',2)
-(6,1,'2022-02-27',1)
-(7,1,'2022-02-28',1)
-(8,1,'2022-03-01',1)
-(9,1,'2022-03-06',1)
-(10,1,'2022-03-07',1)
-\.
+VALUES
+(1,'2022-02-21',3),
+(1,'2022-02-22',3),
+(1,'2022-02-23',2),
+(1,'2022-02-24',1),
+(1,'2022-02-26',2),
+(1,'2022-02-27',1),
+(1,'2022-02-28',1),
+(1,'2022-03-01',1),
+(1,'2022-03-06',1),
+(1,'2022-03-07',1);
 
 
 INSERT INTO AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
-FROM stdin (FORMAT 'csv');
-(1,1)
-(1,2)
-(1,3)
-(1,4)
-(2,5)
-\.
+VALUES
+(1,1),
+(1,2),
+(1,3),
+(1,4),
+(2,5);
 
 \qecho Finished creating the database . . . 
 \c postgres
