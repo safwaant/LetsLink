@@ -31,13 +31,14 @@ router.get('/', (req, res) => {
 //})
 
  // inserts a date into the persons calendar   
- router.post(async (req, res) => {
+ router.post('/add', async (req, res) => {
     try {
-        sql = `INSERT INTO PersonAvailableDays (P.AvailableDay, P.Person_ID) VALUES TO_DATE($1, 'YYYY/MM/DD'), $2`
         const person_id = req.body.person_id;
-        const date = req.body.year + '/' + req.body.month + '/' + req.body.days;
+        //const date = req.body.year + '-' + req.body.month + '-' + req.body.days;
+        const date = new Date(req.body.year, req.body.month-1, req.body.days);
+        sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES ($1, ${person_id})`
         let result
-        result = await client.query(sql, [date, person_id]);
+        result = await client.query(sql, [date]);
         res.status(200).send({ message: "Succesfully inserted into PersonAvailableDays Table" })
     } catch (err) {
         res.status(404).send({ message: "Failed insert into PersonAvailableDays Table" })
