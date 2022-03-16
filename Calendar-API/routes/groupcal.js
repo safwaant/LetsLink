@@ -10,6 +10,19 @@ router.get('/', (req, res) => {
     client.end
 })
 
+// returns 
+router.get('/color', (req, res) => {
+    const sql = `SELECT G.Available_Day, C.Color_Name FROM Color C JOIN GroupAvailableDays G ON (C.Number_People = G.Num_People)`;
+    client.query(sql, (err, result) => {
+        try{
+           res.json(result.rows);
+        }catch(err){
+           res.send("Error message: " + err.message); 
+        }
+    })
+})
+
+
 // Returns available days of the group specified 
 router.route('/:groupcode')
     .get(async (req, res) => {

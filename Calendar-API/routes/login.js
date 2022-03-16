@@ -17,8 +17,7 @@ router.put('/forgot/:username/:newpassword', (req, res) => {
     client.query(`UPDATE Person P SET P.Person_Password = '${req.params.newpassword}' WHERE P.Person_Name = ${req.params.username}`)
 })
 
-
-    // create a new user
+// Creates a new user
 router.post('/newUser', (req, res) => {
         const loginInfo = {
           newUsername : req.body.username,
