@@ -30,6 +30,50 @@ router.get('/', (req, res) => {
 //        client.end
 //})
 
+/*
+// revised insert date into person calendar code
+router.post('/add', (req, res) => {
+    const person_id = req.body.person_id,
+    date = new Date(req.body.year, req.body.month-1, req.body.days);
+    const sql =  `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (${date}, ${person_id})`;
+    client.query(sql, (err, result) => {
+        try{
+              const sqlGroup = `SELECT G.Group_Code FROM CalendarGroup G 
+              JOIN GroupMembers GM ON (G.Group_Code = GM.Group_Code) 
+              JOIN Person P ON P.ID = GM.PersonID WHERE P.ID = ${person_id}`
+              let group_id;  
+              client.query(sqlGroup, (err, result) => {
+                  try{
+                    async function checkDuplicate(){
+                        const select = `SELECT G.Available_Day FROM GroupAvailableDays G WHERE (G.Available_Day = ${date})`;
+                        client.query(select, (err, result) => {
+                            if(result.rows > 0){
+                               return true; 
+                            } 
+                            return false;
+                        })
+                      }
+                      let check = await checkDuplicate();
+                      if(check){
+                          // add a new row
+                        const sql2 = `INSERT INTO CalendarGroup G VALUES (${group_code}, ${date}, 1)`;
+                        client.query(sql2, (err, result) => {
+        
+                        })
+                      }
+                  }catch(err){
+                    group_id = result.json.group_code;
+                  }
+              })
+        }catch(err){
+           res.send(err.message); 
+        }
+    })
+})
+*/
+
+
+/*
  // inserts a date into the persons calendar   
  router.post('/add', async (req, res) => {
     try {
@@ -69,7 +113,7 @@ router.get('/', (req, res) => {
         res.status(404).send({ message: "Failed insert into PersonAvailableDays Table" })
     }
 })
-
+*/
 
 // Retrieves all available days for the specified person. The parameter is person id
 router.route('/:id')
