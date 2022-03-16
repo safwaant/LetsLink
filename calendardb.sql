@@ -123,7 +123,7 @@ VALUES
 (2,5);
 
 
-INSERT INTO GroupAvailableDays (ID, Group_Code, Available_Day, Num_People) 
+INSERT INTO GroupAvailableDays (Group_Code, Available_Day, Num_People) 
 VALUES
 (1,'2022-02-21',3),
 (1,'2022-02-22',3),
