@@ -14,8 +14,6 @@ router.get('/', (req, res) => {
 router.post('/add', (req, res) => {
     const person_id = req.body.person_id;
     const date = req.body.date;
-    console.log(person_id)
-    console.log(date)
     const sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (TO_DATE('${date}','YYYYMMDD'), ${person_id})`;
     client.query(sql, (err, result) => {
         try {

@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 })
 
 // Creates new group
-router.post('/createGroup', (req, res) => {
+router.post('/', (req, res) => {
     try {
         const groupInfo = {
             group_name: req.body.group_name,
@@ -32,6 +32,7 @@ router.post('/createGroup', (req, res) => {
     } catch (err) {
         res.status(404).send({ message: `Group creation Unsuccesful: ` + err.message });  
     }
+    client.end
 })
 
 // returns all colors for each day
@@ -44,18 +45,25 @@ router.get('/color', (req, res) => {
            res.send("Error message: " + err.message); 
         }
     })
+    client.end
 })
 
-// returns all colors for each day
-router.get('/color', (req, res) => {
-    const sql = `SELECT G.Available_Day, C.Color_Name FROM Color C JOIN GroupAvailableDays G ON (C.Number_People = G.Num_People)`;
+// returns all possible days
+router.get('/:group_code/daysToMeet', (req, res) => {
+    const sql = `SELECT available_day, num_people FROM GroupAvailableDays WHERE group_code = ${req.params.group_code} 
+                                                                                    ORDER BY num_people Desc`;
     client.query(sql, (err, result) => {
         try {
-            res.json(result.rows);
+            if (result.rowCount > 0) {
+                res.status(200).json(result.rows);
+            } else{
+                res.status(404).send("No days to meet found")
+            }
         } catch (err) {
-            res.send("Error message: " + err.message);
+            res.status(404).send("Failed to recieve daysToMeet: " + err.message);
         }
     })
+    client.end
 })
 
 // update a color given a date
@@ -72,7 +80,7 @@ router.put('/updateColor', (req, res) => {
   client.end
 })
 
-
+//what is this??
 router.get('/:group_code', (req, res) => {
    const sql = `SELECT J.PersonID FROM GroupMembers J WHERE (J.Group_Code = ${req.params.group_code})`;
    client.query(sql, (err, result) => {
