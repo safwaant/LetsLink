@@ -56,7 +56,7 @@ CREATE TABLE GroupAvailableDays (
 );
 
 CREATE TABLE GroupMembers (
-  Group_Code INT, 
+  Group_Code SERIAL, 
   PersonID SERIAL, 
   PRIMARY KEY (Group_Code, PersonID), 
   FOREIGN KEY (Group_Code) REFERENCES CalendarGroup(Group_Code), 

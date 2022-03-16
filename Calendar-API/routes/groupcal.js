@@ -116,6 +116,7 @@ router.post('/addUser', (req, res) => {
     try {
         const person_id = req.body.person_id
         const group_code = req.body.group_code
+        /*
         const checkMax = `SELECT calendargroup.group_code, member_count, member_amount
                             FROM calendargroup
                             JOIN ( SELECT GroupMembers.group_code, COUNT(*) AS member_amount
@@ -125,15 +126,16 @@ router.post('/addUser', (req, res) => {
                             ) AS Table1 ON (Table1.group_code = calendargroup.group_code)`
         client.query(checkMax, (err, result) => {
             if (err || result.rowCount == 0) {
-                throw err("Group is Full or does not exist: " + err.message);
+                res.send("Group is Full or does not exist: " + err.message);
             }
         })
         const checkDuplicate = `SELECT * FROM GroupMembers WHERE group_code = ${group_code} AND personid = ${person_id}`
         client.query(checkDuplicate, (err, result) => {
             if (err || result.rowCount > 0) {
-                throw err("Person is already in group");
+                res.send("Person is already in group");
             }
         })
+        */
         const sql = `INSERT INTO GroupMembers (personid, group_code) VALUES (${person_id}, ${group_code})`
         client.query(sql)
         const sql2 = `INSERT INTO GroupAvailableDays (num_people, group_code, available_day)
