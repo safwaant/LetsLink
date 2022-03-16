@@ -2,8 +2,10 @@ const express = require('express')
 const router = express.Router()
 const client = require('../initDB')
 
+
+router.route('/')
 // Returns all group’s available days (for debugging)
-router.get('/', (req, res) => {
+.get((req, res) => {
     client.query(`SELECT * FROM GroupAvailableDays`, (err, result) => {
         try{
           res.json(result.rows);   
@@ -13,9 +15,8 @@ router.get('/', (req, res) => {
     })
     client.end
 })
-
 // Creates new group
-router.post('/', (req, res) => {
+.post((req, res) => {
     try {
         const groupInfo = {
             group_name: req.body.group_name,
@@ -25,7 +26,7 @@ router.post('/', (req, res) => {
             max_members: req.body.max_members
         };
         const sql = `INSERT INTO calendargroup (group_name, creator_name, group_start, group_end, member_count) VALUES
-                    (${groupInfo.group_name}, ${groupInfo.creator_name}, TO_DATE('${groupInfo.start_date}','YYYYMMDD'),
+                    ('${groupInfo.group_name}', '${groupInfo.creator_name}', TO_DATE('${groupInfo.start_date}','YYYYMMDD'),
                     TO_DATE('${groupInfo.end_date}','YYYYMMDD'), ${groupInfo.max_members})`;
         client.query(sql)
         res.status(202).send({ message: `Successfully created group` });  
@@ -47,6 +48,18 @@ router.get('/color', (req, res) => {
     })
     client.end
 })
+
+// Get all groups
+router.get('/all', (req, res) => {
+    client.query(`SELECT * FROM CalendarGroup`, (err, result) => {
+        try{
+           res.json(result.rows); 
+        }catch(err){    
+           res.send(err.message); 
+        }
+    })
+})
+
 
 // returns all possible days
 router.get('/:group_code/daysToMeet', (req, res) => {
@@ -80,7 +93,7 @@ router.put('/updateColor', (req, res) => {
   client.end
 })
 
-//what is this??
+// get all members in a specific group
 router.get('/:group_code', (req, res) => {
    const sql = `SELECT J.PersonID FROM GroupMembers J WHERE (J.Group_Code = ${req.params.group_code})`;
    client.query(sql, (err, result) => {
