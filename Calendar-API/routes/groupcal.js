@@ -19,14 +19,15 @@ router.route('/')
 .post((req, res) => {
     try {
         const groupInfo = {
+            group_code : req.body.group_code,
             group_name: req.body.group_name,
             creator_name: req.body.creator_id,
             start_date: req.body.start_date,
             end_date: req.body.end_date,
             max_members: req.body.max_members
         };
-        const sql = `INSERT INTO calendargroup (group_name, creator_name, group_start, group_end, member_count) VALUES
-                    ('${groupInfo.group_name}', '${groupInfo.creator_name}', TO_DATE('${groupInfo.start_date}','YYYYMMDD'),
+        const sql = `INSERT INTO calendargroup (group_code, group_name, creator_name, group_start, group_end, member_count) VALUES
+                    (${groupInfo.group_code}, '${groupInfo.group_name}', '${groupInfo.creator_name}', TO_DATE('${groupInfo.start_date}','YYYYMMDD'),
                     TO_DATE('${groupInfo.end_date}','YYYYMMDD'), ${groupInfo.max_members})`;
         client.query(sql)
         res.status(202).send({ message: `Successfully created group` });  

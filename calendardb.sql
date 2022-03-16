@@ -46,7 +46,7 @@ CREATE TABLE Color (
 
 CREATE TABLE GroupAvailableDays (
   ID SERIAL NOT NULL, 
-  Group_Code SERIAL NOT NULL UNIQUE, 
+  Group_Code INT NOT NULL UNIQUE, 
   Available_Day DATE NOT NULL UNIQUE, 
   Num_People INT NOT NULL, 
   PRIMARY KEY (ID), 
@@ -61,14 +61,6 @@ CREATE TABLE GroupMembers (
   PRIMARY KEY (Group_Code, PersonID), 
   FOREIGN KEY (Group_Code) REFERENCES CalendarGroup(Group_Code), 
   FOREIGN KEY (PersonID) REFERENCES Person(ID)
-);
-
-CREATE TABLE AvailableDaysJoin (
-  Group_Avail_ID SERIAL NOT NULL, 
-  Person_Avail_ID SERIAL NOT NULL, 
-  PRIMARY KEY (Group_Avail_ID, Person_Avail_ID),
-  FOREIGN KEY (Person_Avail_ID) REFERENCES PersonAvailableDays(ID), 
-  FOREIGN KEY (Group_Avail_ID) REFERENCES GroupAvailableDays(ID)
 );
 
 INSERT INTO Person (Person_Name, Person_Password) 
@@ -135,15 +127,6 @@ VALUES
 (1,'2022-03-01',1),
 (1,'2022-03-06',1),
 (1,'2022-03-07',1);
-
-
-INSERT INTO AvailableDaysJoin (Group_Avail_ID, Person_Avail_ID) 
-VALUES
-(1,1),
-(1,2),
-(1,3),
-(1,4),
-(2,5);
 
 \qecho Finished creating the database . . . 
 \c postgres
