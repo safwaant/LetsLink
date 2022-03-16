@@ -51,16 +51,13 @@ router.get('/', (req, res) => {
 
         const checkDate = `SELECT G.Available_Day FROM GroupAvailableDay G WHERE Available_Day = ${date}`;
         client.query(checkDate, (err, result) => {
-            try {
-              if(result.rowCount === 0){
+              if(!err && result.rowCount === 0){
                   // update the color   
                   // insert into calendar 
-                 //client.query(`INSERT INTO GroupAvailableDays (Group_Code, Available_Day, Num_People)`) 
-               }   
-            } catch(err){
-                res.send(404).send({ message: "Failed insert into GroupAvailableDays Table"});
-            }
-            
+                 client.query(`INSERT INTO GroupAvailableDays (Group_Code, Available_Day, Num_People)`) 
+               } else {
+                  res.send("Error could not insert into Person Calendar: " + err.message); 
+               }  
         })
         res.status(200).send({ message: "Successfully inserted into PersonAvailableDays Table" })
     } catch (err) {
@@ -70,7 +67,7 @@ router.get('/', (req, res) => {
 
 
 // Retrieves all available days for the specified person. The parameter is person id
-router.route('/:id/')
+router.route('/:id')
     .get( async (req, res) => {
         try {
             const sql = `SELECT Person_AvailableDay FROM PersonAvailableDays WHERE Person_ID = $1`

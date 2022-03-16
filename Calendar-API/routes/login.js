@@ -43,11 +43,12 @@ router.route('/:username/:password')
     })
     // create a new user
     .post((req, res) => {
-        client.query(`INSERT INTO Person P (Person_Name, Person_Password) VALUES (${req.params.username}, ${req.params.password})`, (err, result) => {
-            if(err){
-              res.status(404).send({message: "Insert into Person Table failed"});  
+        const addUserQuery = `INSERT INTO Person (Person_Name, Person_Password) VALUES ('${req.params.username}', '${req.params.password}')`;
+        client.query(addUserQuery, (err, result) => {
+            if(!err){
+                res.status(200).send({ message: "User does not exist, inserted into Person Table"});    
             } else {
-              res.status(200).send({ message: "User does not exist, inserted into Person Table"});  
+                res.send("Could not be inserted into person table: " + err.message);  
             }
         })
 
