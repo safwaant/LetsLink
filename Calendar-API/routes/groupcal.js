@@ -94,17 +94,6 @@ router.put('/updateColor', (req, res) => {
   client.end
 })
 
-// get all members in a specific group
-router.get('/:group_code', (req, res) => {
-   const sql = `SELECT J.PersonID FROM GroupMembers J WHERE (J.Group_Code = ${req.params.group_code})`;
-   client.query(sql, (err, result) => {
-       try{
-          res.json(result.rows);          
-       }catch(err){
-          res.send(err.message); 
-       }
-   }) 
-})
 
 // Returns available days of the group specified 
 router.route('/:groupcode')
@@ -125,6 +114,19 @@ router.route('/:groupcode')
     client.end
     })
 
+
+    
+// get all members in a specific group
+router.get('/:group_code', (req, res) => {
+    const sql = `SELECT J.PersonID FROM GroupMembers J WHERE (J.Group_Code = ${req.params.group_code})`;
+    client.query(sql, (err, result) => {
+        try{
+           res.json(result.rows);          
+        }catch(err){
+           res.send(err.message); 
+        }
+    }) 
+ })
 // Inserts user into a group using GroupMembers table, if current amount of members 
 router.post('/addUser', (req, res) => {
     try {
