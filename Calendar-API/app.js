@@ -32,9 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-console.log('connecting to client');
 client.connect();
-console.log('after connecting to client');
 app.use('/api/v1/', indexRouter); // http://localhost:3000/api/v1/
 app.use('/api/v1/person/', personRouter); // http://localhost:3000/api/v1/person/
 app.use('/api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
@@ -46,7 +44,6 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-console.log('After catching 404');
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -59,5 +56,5 @@ app.use(function(err, req, res, next) {
   console.error(err.stack)
 });
 
-console.log('Before export')
+
 module.exports = app;

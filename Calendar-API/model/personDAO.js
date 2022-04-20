@@ -1,4 +1,4 @@
 const client = require('../initDB');
 
-client.connect().finally(() => client.end);
+// client.connect().finally(() => client.end);
 
