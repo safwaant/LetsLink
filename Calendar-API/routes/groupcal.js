@@ -7,12 +7,14 @@ let groupDAO = new GroupDAO();
 router.route('/')
 // Returns all group’s available days (for debugging)
 .get(async (req, res) => {
-    let days = await groupDAO.getAllGroupAvailDays();
-    res.json(days.rows);
+    let response = await groupDAO.getAllGroupAvailDays();
+    res.json(response.rows);
 })
 // Creates new group
 .post((req, res) => {
     try {
+
+        const group = JSON .parse(req.body);
         const groupInfo = {
             group_code : req.body.group_code,
             group_name: req.body.group_name,
@@ -32,60 +34,24 @@ router.route('/')
     client.end
 })
 
-// returns all colors for each day
-router.get('/color', (req, res) => {
-    const sql = `SELECT G.Available_Day, C.Color_Name FROM Color C JOIN GroupAvailableDays G ON (C.Number_People = G.Num_People)`;
-    client.query(sql, (err, result) => {
-        try{
-           res.json(result.rows);
-        }catch(err){
-           res.send("Error message: " + err.message); 
-        }
-    })
-    client.end
-})
-
 // Get all groups
-router.get('/all', (req, res) => {
-    client.query(`SELECT * FROM CalendarGroup`, (err, result) => {
-        try{
-           res.json(result.rows); 
-        }catch(err){    
-           res.send(err.message); 
-        }
-    })
-})
+router.get('/all', async (req, res) => {
+    let response = await groupDAO.getAllGroupData();
+    res.json(response.rows);
+});
+
+// returns all colors for each day
+router.get('/color/:group_code/:date', async (req, res) => {
+    let response = await groupDAO.getColorForDay(req.params.group_code, req.params.date);
+    res.json(response.rows);
+});
 
 
 // returns all possible days
-router.get('/daysToMeet/:group_code', (req, res) => {
-    client.query(sql, (err, result) => {
-        try {
-            if (result.rowCount > 0) {
-                res.status(200).json(result.rows);
-            } else{
-                res.status(404).send("No days to meet found")
-            }
-        } catch (err) {
-            res.status(404).send("Failed to recieve daysToMeet: " + err.message);
-        }
-    })
-    client.end
-})
-
-// update a color given a date
-router.put('/updateColor', (req, res) => {
-  const date = new Date(req.body.year, req.body.month-1, req.body.days);
-  const sql = `UPDATE GroupAvailableDays SET Num_People = (((SELECT Num_People FROM GroupAvailableDays WHERE Available_Day = ${date}) + 1) % 4) WHERE Available_Day = ${date}`;
-  client.query(sql, (err2, result) => {
-    try{
-      res.status(202).send({message: `Successful update to the color of ${date}`});  
-    }catch(err){
-      res.send(err2.message);  
-    }
-  })
-  client.end
-})
+router.get('/daysToMeet/:group_code', async (req, res) => {
+    let response = await groupDAO.getDaysToMeet(req.params.group_code);
+    res.json(response.rows);
+});
 
 
 // Returns available days of the group specified 

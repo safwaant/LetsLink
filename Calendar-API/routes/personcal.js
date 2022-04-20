@@ -1,5 +1,4 @@
 const express = require('express');
-const { reset } = require('nodemon');
 const router = express.Router()
 const client = require('../initDB');
 
@@ -11,7 +10,7 @@ router.get('/', (req, res) => {
     client.end
 })
 
-router.post('/add', (req, res) => {
+router.post('/', (req, res) => {
     const person_id = req.body.person_id;
     const date = req.body.date;
     const sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (TO_DATE('${date}','YYYYMMDD'), ${person_id})`;
