@@ -2,16 +2,17 @@ const express = require('express');
 const { reset } = require('nodemon');
 const router = express.Router()
 const client = require('../initDB');
+const PersonCalDAO = require('../model/personAvailDAO');
+let personCalDAO = new PersonCalDAO();
 
+router.route('/')
 // Returns every single person available day
-router.get('/', (req, res) => {
-    client.query(`SELECT * FROM PersonAvailableDays`, (err, result) => {
-       res.json(result.rows); 
-    })
-    client.end
+.get('/', async (req, res) => {
+    let response = await personCalDAO();
+    res.json(response.rows);
 })
-
-router.post('/add', (req, res) => {
+//adds person available day to 
+.post('/add', (req, res) => {
     const person_id = req.body.person_id;
     const date = req.body.date;
     const sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (TO_DATE('${date}','YYYYMMDD'), ${person_id})`;
