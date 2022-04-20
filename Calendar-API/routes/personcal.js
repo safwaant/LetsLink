@@ -6,12 +6,12 @@ let personCalDAO = new PersonCalDAO();
 
 router.route('/')
 // Returns every single person available day
-.get('/', async (req, res) => {
-    let response = await personCalDAO();
+.get(async (req, res) => {
+    let response = await personCalDAO.personCalDAO();
     res.json(response.rows);
 })
 //adds person available day to 
-.post('/add', (req, res) => {
+.post((req, res) => {
     const person_id = req.body.person_id;
     const date = req.body.date;
     const sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (TO_DATE('${date}','YYYYMMDD'), ${person_id})`;

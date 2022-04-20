@@ -29,4 +29,4 @@ class PersonCalDAO {
   }
 }
 
-module.exports = GroupDAO;
+module.exports = PersonCalDAO;
