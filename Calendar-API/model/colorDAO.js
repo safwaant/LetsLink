@@ -1,6 +1,6 @@
 const client = require('../initDB');
 
-module.exports = class ColorDAO {
+class ColorDAO {
     constructor(){
       this.client = client;  
     }
@@ -12,5 +12,7 @@ module.exports = class ColorDAO {
         JOIN GroupAvailableDays G ON (C.Number_People = G.Num_People) 
         WHERE G.Available_Day = TO_DATE($1, 'YYYY-MM-DD') AND G.group_code = $2`;
         return this.client.query(sql, [date, groupCode]);
-      }
+    }
 }
+
+module.exports = ColorDAO;

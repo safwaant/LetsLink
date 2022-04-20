@@ -27,7 +27,6 @@ class GroupDAO {
     const sql = `SELECT * FROM GroupAvailableDays`;
     return this.client.query(sql);
   }
-  
 
   getAllGroupData(){
     const sql = `SELECT * FROM CalendarGroup`;

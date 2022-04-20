@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const client = require('../initDB')
+const client = require('../initDB');
+const ColorDAO = require('../model/colorDAO');
 const GroupDAO = require('../model/groupDAO');
 let groupDAO = new GroupDAO();
-
+let colorDAO = new ColorDAO();
 router.route('/')
 // Returns all group’s available days (for debugging)
 .get(async (req, res) => {
@@ -42,7 +43,7 @@ router.get('/all', async (req, res) => {
 
 // returns all colors for each day
 router.get('/color/:group_code/:date', async (req, res) => {
-    let response = await groupDAO.getColorForDay(req.params.group_code, req.params.date);
+    let response = await colorDAO.getColorForDay(req.params.group_code, req.params.date);
     res.json(response.rows);
 });
 
