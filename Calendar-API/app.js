@@ -24,8 +24,6 @@ app.listen(port, () => {
     console.log(`Server is running at port ${port}`)
 })
 
-app.use(bodyParser.json())
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,7 +35,7 @@ app.use('/api/v1/', indexRouter); // http://localhost:3000/api/v1/
 app.use('/api/v1/person/', personRouter); // http://localhost:3000/api/v1/person/
 app.use('/api/v1/login/', loginRouter); // http://localhost:3000/api/v1/login/
 app.use('/api/v1/personCal/', personDayRouter); // http://localhost:3000/api/v1/personCal/
-app.use('/api/v1/groupCal/', groupRouter); // http://localhost:3000/api/v1/group/
+app.use('/api/v1/groupCal/', groupRouter); // http://localhost:3000/api/v1/groupCal/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,19 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const client = require('../initDB')
+const GroupDAO = require('../model/groupDAO');
 
+let groupDAO = new GroupDAO();
 
 router.route('/')
 // Returns all group’s available days (for debugging)
-.get((req, res) => {
-    client.query(`SELECT * FROM GroupAvailableDays`, (err, result) => {
-        try{
-          res.json(result.rows);   
-        }catch(err){
-          res.send(err.message);  
-        }
-    })
-    client.end
+.get(async (req, res) => {
+    let days = await groupDAO.getAllGroupAvailDays();
+    res.json(days.rows);
 })
 // Creates new group
 .post((req, res) => {
