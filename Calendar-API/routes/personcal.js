@@ -1,5 +1,4 @@
 const express = require('express');
-const { reset } = require('nodemon');
 const router = express.Router()
 const client = require('../initDB');
 const PersonCalDAO = require('../model/personAvailDAO');
