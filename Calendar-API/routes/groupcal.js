@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const client = require('../initDB')
 const GroupDAO = require('../model/groupDAO');
-
 let groupDAO = new GroupDAO();
 
 router.route('/')
@@ -59,9 +58,7 @@ router.get('/all', (req, res) => {
 
 
 // returns all possible days
-router.get('/:group_code/daysToMeet', (req, res) => {
-    const sql = `SELECT available_day, num_people FROM GroupAvailableDays WHERE group_code = ${req.params.group_code} 
-                                                                                    ORDER BY num_people Desc`;
+router.get('/daysToMeet/:group_code', (req, res) => {
     client.query(sql, (err, result) => {
         try {
             if (result.rowCount > 0) {
@@ -94,35 +91,18 @@ router.put('/updateColor', (req, res) => {
 // Returns available days of the group specified 
 router.route('/:groupcode')
     .get(async (req, res) => {
-        try {
-            const sql = `SELECT Available_Day FROM GroupAvailableDays WHERE Group_Code = $1`
-            const groupcode = req.params.groupcode
-            let response
-            response = await client.query(sql, [groupcode])
-            if (response.rowCount > 0) {
-                res.status(200).send(response.rows);
-            } else {
-                res.status(404).send("Group with given groupcode has no available days");
-            }
-        } catch (err) {
-            res.status(404).send({ message: "Person Calendar Get Failed" })
-        }
-    client.end
-    })
+        const groupcode = req.params.groupcode;
+        let response = await groupDAO.getGroupAvailableDays(groupcode);
+        res.json(response.rows);
+});
 
-
-    
 // get all members in a specific group
-router.get('/:group_code', (req, res) => {
-    const sql = `SELECT J.PersonID FROM GroupMembers J WHERE (J.Group_Code = ${req.params.group_code})`;
-    client.query(sql, (err, result) => {
-        try{
-           res.json(result.rows);          
-        }catch(err){
-           res.send(err.message); 
-        }
-    }) 
- })
+router.get('/members/:group_code', async (req, res) => {
+    let response = await groupDAO.getGroupMembers(req.params.group_code);
+    res.json(response.rows); 
+ });
+
+
 // Inserts user into a group using GroupMembers table, if current amount of members 
 router.post('/addUser', (req, res) => {
     try {
