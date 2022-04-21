@@ -12,27 +12,12 @@ router.route('/')
 })
 //adds person available day to 
 .post((req, res) => {
-    const person_id = req.body.person_id;
-    const date = req.body.date;
-    const sql = `INSERT INTO PersonAvailableDays (Person_AvailableDay, Person_ID) VALUES (TO_DATE('${date}','YYYYMMDD'), ${person_id})`;
-    client.query(sql, (err, result) => {
-        try {
-            sql2 = `INSERT INTO GroupAvailableDays (num_people, available_day, group_code)
-                SELECT 1, TO_DATE('${date}','YYYYMMDD'), Table1.group_code
-                FROM (SELECT group_code
-                FROM person
-                JOIN groupmembers ON (groupmembers.personid = person.id)
-                WHERE Person.id = ${person_id}
-                ) AS Table1
-                ON CONFLICT (group_code, available_day) DO
-                UPDATE SET num_people = groupavailabledays.num_people + 1;`
-            client.query(sql2)
-            res.status(200).send("Succesfully added day")
-        } catch (err) {
-            res.status(404).send("Day adding unsuccesful:" + err.message)
-        }
-    })
-    client.end
+    const dayInfo = {
+        person_id : req.body.person_id,
+        date : req.body.date
+    }
+    let response = await personCalDAO.addPersonAvailableDay(dayInfo);
+    res.json();
 })
 //router.route('/name/:id')
 //    .get(async (req, res) => {
