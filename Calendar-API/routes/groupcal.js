@@ -2,37 +2,26 @@ const express = require('express')
 const router = express.Router()
 const client = require('../initDB');
 const ColorDAO = require('../model/colorDAO');
+const GroupAvailDAO = require('../model/groupAvailDAO');
 const GroupDAO = require('../model/groupDAO');
+
+
 let groupDAO = new GroupDAO();
 let colorDAO = new ColorDAO();
+let groupAvailDAO = new GroupAvailDAO();
+
+
 router.route('/')
 // Returns all group’s available days (for debugging)
 .get(async (req, res) => {
-    let response = await groupDAO.getAllGroupAvailDays();
+    let response = await groupAvailDAO.getAllGroupAvailDays();
     res.json(response.rows);
 })
 // Creates new group
 .post((req, res) => {
-    try {
-
-        const group = JSON .parse(req.body);
-        const groupInfo = {
-            group_code : req.body.group_code,
-            group_name: req.body.group_name,
-            creator_name: req.body.creator_id,
-            start_date: req.body.start_date,
-            end_date: req.body.end_date,
-            max_members: req.body.max_members
-        };
-        const sql = `INSERT INTO calendargroup (group_code, group_name, creator_name, group_start, group_end, member_count) VALUES
-                    (${groupInfo.group_code}, '${groupInfo.group_name}', '${groupInfo.creator_name}', TO_DATE('${groupInfo.start_date}','YYYYMMDD'),
-                    TO_DATE('${groupInfo.end_date}','YYYYMMDD'), ${groupInfo.max_members})`;
-        client.query(sql)
-        res.status(202).send({ message: `Successfully created group` });  
-    } catch (err) {
-        res.status(404).send({ message: `Group creation Unsuccesful: ` + err.message });  
-    }
-    client.end
+    const groupInfo = req.body;
+    let response = groupDAO.insertNewGroup(groupInfo);
+    res.send(response);
 })
 
 // Get all groups
@@ -50,7 +39,7 @@ router.get('/color/:group_code/:date', async (req, res) => {
 
 // returns all possible days
 router.get('/daysToMeet/:group_code', async (req, res) => {
-    let response = await groupDAO.getDaysToMeet(req.params.group_code);
+    let response = await groupAvailDAO.getDaysToMeet(req.params.group_code);
     res.json(response.rows);
 });
 
@@ -59,7 +48,7 @@ router.get('/daysToMeet/:group_code', async (req, res) => {
 router.route('/:groupcode')
     .get(async (req, res) => {
         const groupcode = req.params.groupcode;
-        let response = await groupDAO.getGroupAvailableDays(groupcode);
+        let response = await groupAvailDAO.getGroupAvailableDays(groupcode);
         res.json(response.rows);
 });
 
@@ -74,27 +63,7 @@ router.get('/members/:group_code', async (req, res) => {
 router.post('/addUser', (req, res) => {
     try {
         const person_id = req.body.person_id
-        const group_code = req.body.group_code
-        /*
-        const checkMax = `SELECT calendargroup.group_code, member_count, member_amount
-                            FROM calendargroup
-                            JOIN ( SELECT GroupMembers.group_code, COUNT(*) AS member_amount
-                            FROM Groupmembers
-                            GROUP BY GroupMembers.group_code
-                            HAVING GroupMembers.group_code = ${group_code}
-                            ) AS Table1 ON (Table1.group_code = calendargroup.group_code)`
-        client.query(checkMax, (err, result) => {
-            if (err || result.rowCount == 0) {
-                res.send("Group is Full or does not exist: " + err.message);
-            }
-        })
-        const checkDuplicate = `SELECT * FROM GroupMembers WHERE group_code = ${group_code} AND personid = ${person_id}`
-        client.query(checkDuplicate, (err, result) => {
-            if (err || result.rowCount > 0) {
-                res.send("Person is already in group");
-            }
-        })
-        */
+        const group_code = req.body.group_cod;
         const sql = `INSERT INTO GroupMembers (personid, group_code) VALUES (${person_id}, ${group_code})`
         client.query(sql)
         const sql2 = `INSERT INTO GroupAvailableDays (num_people, group_code, available_day)
