@@ -5,8 +5,11 @@ class GroupDAO {
   }
 
   insertNewGroup(groupInfo){
-    const sql = `INSERT INTO calendargroup (group_code, group_name, creator_name, group_start, group_end, member_count) VALUES
-    ($1, $2, $3, TO_DATE($4,'YYYY-MM-DD'),
+    const sql = 
+    `INSERT INTO calendargroup 
+      (group_code, group_name, creator_name, group_start, group_end, member_count) 
+    VALUES ($1, $2, $3, 
+    TO_DATE($4,'YYYY-MM-DD'),
     TO_DATE($5,'YYYY-MM-DD'), $6)`;
     const params = 
     [
@@ -26,7 +29,11 @@ class GroupDAO {
   }
 
   getGroupMembers(groupCode){
-    const sql = `SELECT P.Person_Name FROM Person P JOIN GroupMembers G ON (G.personid = P.id) WHERE (G.Group_Code = $1)`;
+    const sql = 
+    `SELECT P.Person_Name 
+    FROM Person P 
+    JOIN GroupMembers G ON (G.personid = P.id) 
+    WHERE (G.Group_Code = $1)`;
     return this.client.query(sql, [groupCode]);
   }
 

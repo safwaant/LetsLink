@@ -15,7 +15,10 @@ class GroupAvailDAO{
      }
 
      getGroupAvailableDays(groupCode){
-        const sql = `SELECT Available_Day FROM GroupAvailableDays WHERE Group_Code = $1`;
+        const sql = 
+        `SELECT Available_Day
+        FROM GroupAvailableDays
+        WHERE Group_Code = $1`;
         return this.client.query(sql, [groupCode]); 
       }
     
