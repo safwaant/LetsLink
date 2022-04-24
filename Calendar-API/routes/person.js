@@ -2,24 +2,21 @@ const { query } = require('express');
 const express = require('express');
 const router = express.Router();
 const client = require('../initDB');
+const PersonDAO = require('../model/personDAO');
+
+let personDAO = new PersonDAO();
 
 // Returns every single person on the table
 //    (used for debugging and hidden from the end user)
-router.get('/', (req, res) => {
-   client.query(`SELECT * FROM person`, (err, result)=>{
-        try{
-         res.json(result.rows);   
-        } catch(err) {
-         res.send(err.message);   
-        }
-      })
-   client.end  
-})
+router.get('/', async (req, res) => {
+ let persons = await personDAO.getAllPersons();
+ res.json(persons.rows); 
+});
 
 
 // Returns a person's id based on the person's name
 router.get('/id/:person_name', (req, res) => {
-   client.query(`SELECT P.id FROM Person P WHERE P.Person_Name = '${req.params.person_name}'`, (err, result) => {
+   client.query(`}'`, (err, result) => {
       try{
         res.json(result.rows); 
       }catch(err){

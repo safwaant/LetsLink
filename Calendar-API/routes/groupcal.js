@@ -83,24 +83,4 @@ router.post('/addUser', (req, res) => {
     client.end
 })
 
-
-/*
-    .post(async (req, res) => {
-        try {
-            const sql = `INSERT INTO GroupMembers FROM GroupAvailableDays WHERE Group_Code = $1`
-            const groupcode = req.params.groupcode
-            let response
-            response = await client.query(sql, [groupcode])
-            if (response.rowCount > 0) {
-                res.status(200).send(response.rows);
-            } else {
-                res.status(404).send("Group with given groupcode has no available days");
-            }
-        } catch (err) {
-            res.status(404).send({ message: "Person Calendar Get Failed" })
-        }
-        client.end
-    })
-*/
-
 module.exports = router
