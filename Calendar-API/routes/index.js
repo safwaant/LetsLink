@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var model = require('../model/personDAO');
+//var model = require('../model/personDAO');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
