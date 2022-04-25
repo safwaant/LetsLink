@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 const password = process.env.PASSWORD;
 
+//console.log('Before Creating Client');
 const client = new Client({
     host: "localhost",
     user: "postgres",
@@ -12,3 +13,4 @@ const client = new Client({
 });
 
 module.exports = client;
+
