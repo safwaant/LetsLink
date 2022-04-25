@@ -10,12 +10,7 @@ class PersonDAO {
         `SELECT * FROM person`;
         return this.client.query(sql);
     }
-
-    getPersonFromName(){
-        const sql = 
-        ``;
-        return this.client.query(sql, );
-    }
+    
 }
 
 module.exports = PersonDAO;

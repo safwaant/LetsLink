@@ -14,9 +14,12 @@ router.get('/', async (req, res) => {
 });
 
 
-// Returns a person's id based on the person's name
+
+
+
+/* Returns a person's id based on the person's name
 router.get('/id/:person_name', (req, res) => {
-   client.query(`}'`, (err, result) => {
+   client.query(`SELECT P.id FROM Person P WHERE P.Person_Name = '${req.params.person_name}'`, (err, result) => {
       try{
         res.json(result.rows); 
       }catch(err){
@@ -25,6 +28,7 @@ router.get('/id/:person_name', (req, res) => {
    })
    client.end
 })
+*/
 
 
 // Returns a person's name based on the person's id
