@@ -10,6 +10,7 @@ const client = new Client({
     port: 5432,
     password: `${password}`,
     database: "calendar"
-})
-//console.log('After Creating Client');
-module.exports = client
+});
+
+module.exports = client;
+

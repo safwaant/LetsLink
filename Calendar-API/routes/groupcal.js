@@ -37,18 +37,13 @@ router.route('/')
     client.end
 })
 
-// returns all colors for each day
-router.get('/color', (req, res) => {
-    const sql = `SELECT G.Available_Day, C.Color_Name FROM Color C JOIN GroupAvailableDays G ON (C.Number_People = G.Num_People)`;
-    client.query(sql, (err, result) => {
-        try{
-           res.json(result.rows);
-        }catch(err){
-           res.send("Error message: " + err.message); 
-        }
+router.route('/:id') // http://localhost:3000/api/v1/group/123
+.get((req, res) => {
+    client.query(`SELECT Available_Day FROM GroupAvailableDays WHERE Group_Code = ${req.params.id}`, (err, result) => {
+        res.json(result.rows);
     })
     client.end
-})
+});
 
 // Get all groups
 router.get('/all', (req, res) => {

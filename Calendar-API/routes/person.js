@@ -15,22 +15,11 @@ router.get('/', (req, res) => {
       })
    client.end  
 })
+// get group available data for a person
 
 
-// Returns a person's id based on the person's name
-router.get('/id/:person_name', (req, res) => {
-   client.query(`SELECT P.id FROM Person P WHERE P.Person_Name = '${req.params.person_name}'`, (err, result) => {
-      try{
-        res.json(result.rows); 
-      }catch(err){
-        res.send(err.message); 
-      }
-   })
-   client.end
-})
+// add route to return the id given username
 
-
-// Returns a person's name based on the person's id
 router
 .route('/:id')
 .get((req, res) => {
