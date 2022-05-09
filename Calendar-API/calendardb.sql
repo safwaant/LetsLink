@@ -9,8 +9,8 @@ CREATE DATABASE Calendar;
 
 CREATE TABLE Person (
   ID SERIAL NOT NULL, 
-  Person_Name VARCHAR(20) NOT NULL, 
-  Person_Password VARCHAR(10) NOT NULL UNIQUE, 
+  Username VARCHAR(20) NOT NULL UNIQUE, 
+  Person_Password VARCHAR(10) NOT NULL, 
   PRIMARY KEY (ID)
 );
 
