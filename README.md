@@ -46,5 +46,9 @@ Head to the backend directory of the project, and run:
 
 
 ## Future Scope
-We are just starting on this, so right now we are creating the database and starting the API calls for managing the data
-in the database.
+
+Frontend 
+* The frontend is still left incomplete as of 8/12/2022
+
+Backend 
+* The backend has layers of abstractions using Expresses built in folders and packages but still needs to be refactored with data models
